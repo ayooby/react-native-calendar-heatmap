@@ -10,7 +10,7 @@ A calendar heatmap component built on SVG, inspired by github's commit calendar 
 Install the npm module:
 
 ```bash
-npm install react-native-calendar-heatmap
+npm install react-native-heatmap
 ```
 
 Style color is not so fancy and you can change `rectColor` array to change
