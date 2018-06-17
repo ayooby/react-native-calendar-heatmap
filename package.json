@@ -1,7 +1,7 @@
 {
   "name": "react-native-heatmap",
   "author": "ayooby",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "heatmap component for react-native, inspired by github's contribution graph",
   "bugs": {
     "url": ""
@@ -11,10 +11,7 @@
     "url": "https://github.com/ayooby/react-native-calendar-heatmap"
   },
   "scripts": {
-    "dev": "node ./config/scripts/dev.js",
-    "build": "node ./config/scripts/build.js",
-    "test": "jest",
-    "test:watch": "jest --watch"
+    "lint": "eslint ./"
   },
   "keywords": [
     "calendar",
@@ -24,21 +21,10 @@
   ],
   "main": "./dist/index.js",
   "license": "MIT",
-  "devDependencies": {
-    "babel-core": "^6.24.1",
-    "babel-loader": "^7.0.0",
-    "babel-preset-blue": "^1.0.0-beta.29",
-    "compression-webpack-plugin": "^0.4.0",
-    "friendly-errors-webpack-plugin": "^1.6.1",
-    "ora": "^1.2.0",
-    "webpack": "^2.5.0",
-    "webpack-merge": "^4.1.0",
-    "jest": "^20.0.0"
-  },
   "dependencies": {
-    "expo": "17.0.0",
-    "lodash": "^4.17.4",
-    "prop-types": "^15.5.10"
+    "lodash": "^4.17.10",
+    "prop-types": "^15.6.1",
+    "react-native-svg": "^6.3.1"
   },
   "files": [
     "dist"

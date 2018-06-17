@@ -1,8 +1,14 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import ViewPropTypes from 'react-native';
-import { Expo, Svg } from 'expo';
+import PropTypes from 'prop-types';
+import { ScrollView } from 'react-native';
+import Svg,{
+    G,
+    Rect,
+    Text
+} from 'react-native-svg';
 import _ from 'lodash';
+
 import { DAYS_IN_WEEK, MILLISECONDS_IN_ONE_DAY, MONTH_LABELS } from './constants';
 import { shiftDate, getBeginningTimeForDate, convertToDate } from './dateHelpers';
 
@@ -10,20 +16,13 @@ const SQUARE_SIZE = 20;
 const MONTH_LABEL_GUTTER_SIZE = 8;
 const rectColor = ['#eeeeee','#d6e685', '#8cc665', '#44a340', '#1e6823']
 
-export class CalendarHeatmap extends React.Component {
+export default class CalendarHeatmap extends Component<Props> {
   constructor(props) {
     super(props);
     this.state = {
       valueCache: this.getValueCache(props.values),
     };
   }
-
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      valueCache: this.getValueCache(nextProps.values),
-    });
-  }
-
   getSquareSizeWithGutter() {
     return SQUARE_SIZE + this.props.gutterSize;
   }
@@ -63,6 +62,7 @@ export class CalendarHeatmap extends React.Component {
   }
 
   getWeekWidth() {
+  console.log(this.getSquareSizeWithGutter());
     return DAYS_IN_WEEK * this.getSquareSizeWithGutter();
   }
 
@@ -174,8 +174,8 @@ export class CalendarHeatmap extends React.Component {
   }
 
   handleClick(value) {
-    if (this.props.onClick) {
-      this.props.onClick(value);
+    if (this.props.onPress) {
+      this.props.onPress(value);
     }
   }
 
@@ -186,16 +186,15 @@ export class CalendarHeatmap extends React.Component {
     }
     const [x, y] = this.getSquareCoordinates(dayIndex);
     return (
-      <Svg.Rect
+      <Rect
         key={index}
         width={SQUARE_SIZE}
         height={SQUARE_SIZE}
         x={x}
         y={y}
         title={this.getTitleForIndex(index)}
-        onPress={() => alert(this.getTitleForIndex(index))}
+        onPress={() => this.handleClick(index)}
         fill={this.getClassNameForIndex(index)}
-        // onPress={this.handleClick.bind(this, this.getValueForIndex(index))}
         {...this.getTooltipDataAttrsForIndex(index)}
       />
     );
@@ -204,9 +203,9 @@ export class CalendarHeatmap extends React.Component {
   renderWeek(weekIndex) {
     const [x, y] = this.getTransformForWeek(weekIndex);
     return (
-      <Svg.G key={weekIndex} x={x} y={y}>
+      <G key={weekIndex} x={x} y={y}>
         {_.range(DAYS_IN_WEEK).map(dayIndex => this.renderSquare(dayIndex, (weekIndex * DAYS_IN_WEEK) + dayIndex))}
-      </Svg.G>
+      </G>
     );
   }
 
@@ -223,30 +222,32 @@ export class CalendarHeatmap extends React.Component {
       const endOfWeek = shiftDate(this.getStartDateWithEmptyDays(), (weekIndex + 1) * DAYS_IN_WEEK);
       const [x, y] = this.getMonthLabelCoordinates(weekIndex);
       return (endOfWeek.getDate() >= 1 && endOfWeek.getDate() <= DAYS_IN_WEEK) ? (
-        <Svg.Text
+        <Text
           key={weekIndex}
           x={x}
           y={y}
         >
           {MONTH_LABELS[endOfWeek.getMonth()]}
-        </Svg.Text>
+        </Text>
       ) : null;
     });
   }
 
   render() {
     return (
+      <ScrollView>
         <Svg
           height={this.getHeight()} 
           width={this.getWidth()}
         >
-          <Svg.G>
+          <G>
             {this.renderMonthLabels()}
-          </Svg.G>
-          <Svg.G >
+          </G>
+          <G >
             {this.renderAllWeeks()}
-          </Svg.G>
+          </G>
         </Svg>
+      </ScrollView>
     );
   }
 }
@@ -266,7 +267,7 @@ CalendarHeatmap.ViewPropTypes = {
   tooltipDataAttrs: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),    // data attributes to add to square for setting 3rd party tooltips, e.g. { 'data-toggle': 'tooltip' } for bootstrap tooltips
   titleForValue: PropTypes.func,         // function which returns title text for value
   classForValue: PropTypes.func,         // function which returns html class for value
-  onClick: PropTypes.func,               // callback function when a square is clicked
+  onPress: PropTypes.func,               // callback function when a square is clicked
 };
 
 CalendarHeatmap.defaultProps = {
@@ -277,4 +278,6 @@ CalendarHeatmap.defaultProps = {
   showMonthLabels: true,
   showOutOfRangeDays: false,
   classForValue: value => (value ? 'black' : '#8cc665'),
+  onPress: () => console.log('change onPress prop')
 };
+
