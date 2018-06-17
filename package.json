@@ -1,5 +1,5 @@
 {
-  "name": "react-native-heatmap",
+  "name": "react-native-calendar-heatmap",
   "author": "ayooby",
   "version": "0.1.2",
   "description": "heatmap component for react-native, inspired by github's contribution graph",
