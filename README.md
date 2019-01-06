@@ -11,6 +11,8 @@ Install the npm module:
 
 ```bash
 npm install react-native-calendar-heatmap --save
+
+react-native link react-native-svg
 ```
 
 Style color is not so fancy and you can change `rectColor` array to change
