@@ -23,7 +23,9 @@
   "license": "MIT",
   "dependencies": {
     "lodash": "^4.17.10",
-    "prop-types": "^15.6.1",
+    "prop-types": "^15.6.1"
+  },
+  "peerDependencies": {
     "react-native-svg": "^6.5.2"
   },
   "files": [
