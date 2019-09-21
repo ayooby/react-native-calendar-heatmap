@@ -7,6 +7,58 @@ import {
   MILLISECONDS_IN_ONE_DAY
 } from "./utils/constants";
 
+function getTransformForMonthLabels(horizontal, gutterSize) {
+  if (horizontal) {
+    return null;
+  }
+  return `${getWeekWidth(gutterSize) + MONTH_LABEL_GUTTER_SIZE}, 0`;
+}
+
+function getTransformForAllWeeks(showMonthLabels, horizontal) {
+  if (horizontal)
+    return `0, ${getMonthLabelSize(showMonthLabels, horizontal) - 100}`;
+  return null;
+}
+
+function getWeekWidth(gutterSize) {
+  console.log(getSquareSizeWithGutter(gutterSize));
+  return DAYS_IN_WEEK * getSquareSizeWithGutter(gutterSize);
+}
+
+function getWidth(numDays, endDate, gutterSize) {
+  return (
+    getWeekCount(numDays, endDate) * getSquareSizeWithGutter(gutterSize) -
+    gutterSize
+  );
+}
+
+function getHeight(gutterSize, showMonthLabels, horizontal) {
+  return (
+    getWeekWidth(gutterSize) +
+    (getMonthLabelSize(showMonthLabels, horizontal) - gutterSize)
+  );
+}
+
+function getViewBox(numDays, endDate, gutterSize, showMonthLabels, horizontal) {
+  if (horizontal) {
+    return `${getWidth(numDays, endDate, gutterSize)} ${getHeight(
+      gutterSize,
+      showMonthLabels,
+      horizontal
+    )}`;
+  }
+  return `${getHeight(gutterSize, showMonthLabels, horizontal)} ${getWidth(
+    numDays,
+    endDate,
+    gutterSize
+  )}`;
+}
+
+function getValueForIndex(index, valueCache) {
+  if (valueCache[index]) return valueCache[index].value;
+  return null;
+}
+
 function getTooltipDataAttrsForValue(value, tooltipDataAttrs) {
   if (typeof tooltipDataAttrs === "function") return tooltipDataAttrs(value);
   return tooltipDataAttrs;
@@ -117,5 +169,6 @@ export default {
   getSquareCoordinates,
   getTitleForIndex,
   getClassNameForIndex,
-  getTooltipDataAttrsForIndex
+  getTooltipDataAttrsForIndex,
+  getTooltipDataAttrsForValue
 };

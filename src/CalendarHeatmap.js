@@ -24,13 +24,16 @@ import {
   getSquareCoordinates,
   getTitleForIndex,
   getClassNameForIndex,
-  getTooltipDataAttrsForIndex
+  getTooltipDataAttrsForIndex,
+  getHeight,
+  getWidth
 } from "./utils/utils";
 
 const rectColor = ["#eeeeee", "#d6e685", "#8cc665", "#44a340", "#1e6823"];
 
 const CalendarHeatmap = props => {
   const {
+    values,
     gutterSize,
     showMonthLabels,
     horizontal,
@@ -43,6 +46,30 @@ const CalendarHeatmap = props => {
     showMonthLabels
   } = props;
   const [valueCache, setValueCache] = useState(null);
+
+  useEffect(() => {
+    setValueCache(getValueCache(values));
+  }, []);
+
+  getValueCache = values => {
+    return _.reduce(
+      values,
+      (memo, value) => {
+        const date = convertToDate(value.date);
+        const index = Math.floor(
+          (date - getStartDateWithEmptyDays(numDays, endDate)) /
+            MILLISECONDS_IN_ONE_DAY
+        );
+        memo[index] = {
+          value,
+          title: titleForValue ? titleForValue(value) : null,
+          tooltipDataAttrs: getTooltipDataAttrsForValue(value, tooltipDataAttrs)
+        };
+        return memo;
+      },
+      {}
+    );
+  };
 
   handleClick = value => {
     if (onPress) {
@@ -117,9 +144,12 @@ const CalendarHeatmap = props => {
 
   return (
     <ScrollView>
-      <Svg height={this.getHeight()} width={this.getWidth()}>
-        <G>{this.renderMonthLabels()}</G>
-        <G>{this.renderAllWeeks()}</G>
+      <Svg
+        height={getHeight(gutterSize, showMonthLabels, horizontal)}
+        width={getWidth(numDays, endDate, gutterSize)}
+      >
+        <G>{renderMonthLabels()}</G>
+        <G>{renderAllWeeks()}</G>
       </Svg>
     </ScrollView>
   );
