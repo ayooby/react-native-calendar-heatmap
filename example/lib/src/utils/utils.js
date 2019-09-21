@@ -108,7 +108,7 @@ function findColorLevel(count, rectColor) {
 }
 
 function getFillColor(index, valueCache, rectColor) {
-  if (valueCache[index].countedArray) {
+  if (valueCache[index]) {
     const fillColor = findColorLevel(
       valueCache[index].countedArray.count,
       rectColor
