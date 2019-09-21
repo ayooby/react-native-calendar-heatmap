@@ -23,7 +23,8 @@ import {
   getNumEmptyDaysAtStart,
   getSquareCoordinates,
   getTitleForIndex,
-  getClassNameForIndex,
+  getFillColor,
+  getCountByDuplicateValues,
   getTooltipDataAttrsForIndex,
   getTooltipDataAttrsForValue,
   getHeight,
@@ -47,6 +48,7 @@ const CalendarHeatmap = props => {
   } = props;
 
   getValueCache = values => {
+    const countedArray = getCountByDuplicateValues(values);
     return _.reduce(
       values,
       (memo, value) => {
@@ -56,10 +58,11 @@ const CalendarHeatmap = props => {
             MILLISECONDS_IN_ONE_DAY
         );
         memo[index] = {
-          value,
-          title: titleForValue ? titleForValue(value) : null,
-          tooltipDataAttrs: getTooltipDataAttrsForValue(value, tooltipDataAttrs)
+          value: value
         };
+        const count = _.find(countedArray, { key: memo[index].value.date });
+        memo[index].countedArray = count;
+
         return memo;
       },
       {}
@@ -87,6 +90,7 @@ const CalendarHeatmap = props => {
       return null;
     }
     const [x, y] = getSquareCoordinates(dayIndex, horizontal, gutterSize);
+    const fillColor = getFillColor(index, valueCache, rectColor);
     return (
       <Rect
         key={index}
@@ -96,7 +100,7 @@ const CalendarHeatmap = props => {
         y={y}
         title={getTitleForIndex(index, valueCache, titleForValue)}
         onPress={() => handleClick(index)}
-        fill={getClassNameForIndex(index, valueCache, rectColor)}
+        fill={fillColor}
         {...getTooltipDataAttrsForIndex(index, valueCache, tooltipDataAttrs)}
       />
     );

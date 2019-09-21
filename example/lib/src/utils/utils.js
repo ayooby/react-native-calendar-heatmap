@@ -21,7 +21,6 @@ function getTransformForAllWeeks(showMonthLabels, horizontal) {
 }
 
 function getWeekWidth(gutterSize) {
-  console.log("getSquareSizeWithGutter: ", getSquareSizeWithGutter(gutterSize));
   return DAYS_IN_WEEK * getSquareSizeWithGutter(gutterSize);
 }
 
@@ -74,13 +73,52 @@ function getTooltipDataAttrsForIndex(index, valueCache, tooltipDataAttrs) {
   );
 }
 
-function getClassNameForIndex(index, valueCache, rectColor) {
-  if (valueCache[index]) return rectColor[valueCache[index].value.count];
+function getCountByDuplicateValues(array) {
+  let hashMap = {};
+
+  for (var item of array) {
+    //if that date exists
+    if (item.date in hashMap) {
+      //up the prev count
+      hashMap[item.date] = hashMap[item.date] + 1;
+    } else {
+      hashMap[item.date] = 1;
+    }
+  }
+
+  //now we will iterate through those keys of the Map and format it for Array 2
+  let outputArray = [];
+  Object.keys(hashMap).forEach(key => {
+    outputArray.push({
+      key,
+      count: hashMap[key]
+    });
+  });
+  return outputArray;
+}
+
+function findColorLevel(count, rectColor) {
+  if (count === 0) return rectColor[0];
+  else if (count >= 1 && count <= 3) return rectColor[1];
+  else if (count >= 4 && count <= 9) return rectColor[2];
+  else if (count >= 10 && count <= 17) return rectColor[3];
+  else if (count >= 18 && count <= 25) return rectColor[4];
+  else if (count >= 26) return rectColor[5];
+  else return rectColor[5];
+}
+
+function getFillColor(index, valueCache, rectColor) {
+  if (valueCache[index].countedArray) {
+    const fillColor = findColorLevel(
+      valueCache[index].countedArray.count,
+      rectColor
+    );
+    return fillColor;
+  }
   return rectColor[0];
 }
 
 function getTitleForIndex(index, valueCache, titleForValue) {
-  console.log("valueCache[index]", valueCache[index]);
   if (valueCache[index]) return valueCache[index].title;
   return titleForValue ? titleForValue(null) : null;
 }
@@ -168,7 +206,8 @@ export {
   getNumEmptyDaysAtStart,
   getSquareCoordinates,
   getTitleForIndex,
-  getClassNameForIndex,
+  getFillColor,
+  getCountByDuplicateValues,
   getTooltipDataAttrsForIndex,
   getTooltipDataAttrsForValue,
   getHeight,
@@ -183,7 +222,8 @@ export default {
   getNumEmptyDaysAtStart,
   getSquareCoordinates,
   getTitleForIndex,
-  getClassNameForIndex,
+  getFillColor,
+  getCountByDuplicateValues,
   getTooltipDataAttrsForIndex,
   getTooltipDataAttrsForValue,
   getHeight,

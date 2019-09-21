@@ -1,12 +1,5 @@
 import React, { Fragment } from "react";
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar
-} from "react-native";
+import { StatusBar, SafeAreaView } from "react-native";
 import CalendarHeatmap from "./lib/src/CalendarHeatmap";
 
 const App = () => {
@@ -15,12 +8,53 @@ const App = () => {
       <StatusBar barStyle="dark-content" />
       <SafeAreaView>
         <CalendarHeatmap
-          endDate={new Date("2016-04-01")}
+          endDate={new Date("2019-03-25")}
           numDays={100}
           values={[
-            { date: "2016-01-01" },
-            { date: "2016-01-22" },
-            { date: "2016-01-30" }
+            { date: "2019-02-01" },
+            { date: "2019-02-01" },
+            { date: "2019-01-01" },
+            { date: "2019-01-01" },
+            { date: "2019-01-01" },
+            { date: "2019-01-01" },
+            { date: "2019-01-02" },
+            { date: "2019-01-01" },
+            { date: "2019-01-01" },
+            { date: "2019-01-21" },
+            { date: "2019-01-21" },
+            { date: "2019-01-21" },
+            { date: "2019-01-21" },
+            { date: "2019-01-21" },
+            { date: "2019-01-21" },
+            { date: "2019-01-21" },
+            { date: "2019-01-21" },
+            { date: "2019-01-21" },
+            { date: "2019-02-21" },
+            { date: "2019-02-21" },
+            { date: "2019-02-21" },
+            { date: "2019-02-21" },
+            { date: "2019-02-21" },
+            { date: "2019-02-21" },
+            { date: "2019-02-21" },
+            { date: "2019-02-21" },
+            { date: "2019-02-21" },
+            { date: "2019-02-21" },
+            { date: "2019-02-21" },
+            { date: "2019-02-21" },
+            { date: "2019-02-21" },
+            { date: "2019-02-21" },
+            { date: "2019-02-21" },
+            { date: "2019-02-21" },
+            { date: "2019-02-21" },
+            { date: "2019-02-21" },
+            { date: "2019-02-21" },
+            { date: "2019-02-21" },
+            { date: "2019-02-21" },
+            { date: "2019-02-21" },
+            { date: "2019-02-21" },
+            { date: "2019-02-21" },
+            { date: "2019-02-21" },
+            { date: "2019-03-05" }
           ]}
         />
       </SafeAreaView>
