@@ -44,7 +44,8 @@ const CalendarHeatmap = props => {
     tooltipDataAttrs,
     onPress,
     showOutOfRangeDays,
-    showMonthLabels
+    showMonthLabels,
+    colorArray
   } = props;
 
   getValueCache = values => {
@@ -90,7 +91,7 @@ const CalendarHeatmap = props => {
       return null;
     }
     const [x, y] = getSquareCoordinates(dayIndex, horizontal, gutterSize);
-    const fillColor = getFillColor(index, valueCache, rectColor);
+    const fillColor = getFillColor(index, valueCache, colorArray);
     return (
       <Rect
         key={index}
@@ -140,7 +141,7 @@ const CalendarHeatmap = props => {
         showMonthLabels
       );
       return endOfWeek.getDate() >= 1 && endOfWeek.getDate() <= DAYS_IN_WEEK ? (
-        <Text key={weekIndex} x={x} y={y}>
+        <Text key={weekIndex} x={x} y={y + 16}>
           {MONTH_LABELS[endOfWeek.getMonth()]}
         </Text>
       ) : null;
@@ -184,7 +185,8 @@ CalendarHeatmap.propTypes = {
   tooltipDataAttrs: PropTypes.oneOfType([PropTypes.object, PropTypes.func]), // data attributes to add to square for setting 3rd party tooltips, e.g. { 'data-toggle': 'tooltip' } for bootstrap tooltips
   titleForValue: PropTypes.func, // function which returns title text for value
   classForValue: PropTypes.func, // function which returns html class for value
-  onPress: PropTypes.func // callback function when a square is clicked
+  onPress: PropTypes.func, // callback function when a square is clicked
+  colorArray: PropTypes.array
 };
 
 CalendarHeatmap.defaultProps = {
@@ -194,6 +196,7 @@ CalendarHeatmap.defaultProps = {
   horizontal: true,
   showMonthLabels: true,
   showOutOfRangeDays: false,
+  colorArray: rectColor,
   classForValue: value => (value ? "black" : "#8cc665"),
   onPress: () => console.log("change onPress prop")
 };
