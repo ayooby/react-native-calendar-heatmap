@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { View, Text, StatusBar, SafeAreaView } from "react-native";
-import CalendarHeatmap from "./lib/src/CalendarHeatmap";
+import CalendarHeatmap from "react-native-calender-heatmap";
 import { staticData } from "./staticData/staticData";
 
 const App = () => {
