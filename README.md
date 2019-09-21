@@ -11,8 +11,11 @@
 [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg?style=for-the-badge)](https://github.com/prettier/prettier)
 
 <p align="center">
-<img alt="React Native Calendar Heatmap" src="assets/Screenshots/example.png" width="49.7%"/>
-<img alt="React Native Calendar Heatmap" src="assets/Screenshots/example-old.png" width="49.7%" />
+  <img alt="React Native Calendar Heatmap" src="assets/Screenshots/example.png" width="49.7%"/>
+</p>
+</br>
+<p align="center">
+  <img alt="React Native Calendar Heatmap" src="assets/Screenshots/example-old.png" width="49.7%" />
 </p>
 
 ## Installation
