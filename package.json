@@ -19,7 +19,7 @@
     "react-native-component",
     "svg"
   ],
-  "main": "./dist/index.js",
+  "main": "./lib/src/CalendarHeatmap.js",
   "license": "MIT",
   "dependencies": {
     "lodash": "^4.17.10",
