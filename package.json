@@ -1,33 +1,28 @@
 {
   "name": "@freakycoder/react-native-calendar-heatmap",
-  "version": "0.2.0",
-  "description": "heatmap component for react-native, inspired by github's contribution graph",
-  "bugs": {
-    "url": ""
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/ayooby/react-native-calendar-heatmap"
-  },
-  "scripts": {
-    "lint": "eslint ./"
-  },
+  "version": "0.2.1",
+  "description": "Github like Calendar Heatmap",
   "keywords": [
-    "calendar",
+    "ayooby",
+    "FreakyCoder",
+    "freakycoder",
+    "kuray",
+    "Kuray",
+    "react",
     "react-native",
-    "react-native-component",
-    "svg"
+    "javascript",
+    "ui-lib",
+    "rn"
   ],
+  "homepage": "https://www.freakycoder.com",
+  "bugs": "https://github.com/WrathChaos/react-native-calendar-heatmap/issues",
   "main": "./lib/src/CalendarHeatmap.js",
+  "repository": "git@github.com:WrathChaos/react-native-calendar-heatmap.git",
+  "author": "Kuray (FreakyCoder) <kurayogun@gmail.com>",
   "license": "MIT",
-  "dependencies": {
-    "prop-types": "^15.6.1"
-  },
   "peerDependencies": {
-    "lodash": "^4.17.10",
-    "react-native-svg": "^6.5.2"
-  },
-  "files": [
-    "dist"
-  ]
+    "react": ">= 16.x.x",
+    "react-native": ">= 0.55.x",
+    "react-native-svg": ">= 12.0.3"
+  }
 }
