@@ -10,7 +10,7 @@
   "dependencies": {
     "react": "16.8.6",
     "react-native": "0.60.5",
-    "@freakycoder/react-native-calendar-heatmap": "^0.1.4",
+    "@freakycoder/react-native-calendar-heatmap": "^0.1.5",
     "react-native-svg": "^9.9.4"
   },
   "devDependencies": {
