@@ -1,6 +1,6 @@
 {
-  "name": "react-native-calendar-heatmap",
-  "version": "0.1.4",
+  "name": "@freakycoder/react-native-calendar-heatmap",
+  "version": "0.1.5",
   "description": "heatmap component for react-native, inspired by github's contribution graph",
   "bugs": {
     "url": ""
