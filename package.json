@@ -1,6 +1,6 @@
 {
-  "name": "react-native-calendar-heatmap",
-  "version": "0.2.3",
+  "name": "@bhanukk/react-native-calendar-heatmap",
+  "version": "0.2.4",
   "description": "Github like Calendar Heatmap",
   "keywords": [
     "ayooby",
@@ -8,6 +8,7 @@
     "freakycoder",
     "kuray",
     "Kuray",
+    "bhanu",
     "react",
     "react-native",
     "javascript",
@@ -15,10 +16,10 @@
     "rn"
   ],
   "homepage": "https://www.freakycoder.com",
-  "bugs": "https://github.com/ayooby/react-native-calendar-heatmap/issues",
+  "bugs": "https://github.com/bhanukk/react-native-calendar-heatmap/issues",
   "main": "./lib/src/CalendarHeatmap.js",
-  "repository": "git@github.com:ayooby/react-native-calendar-heatmap.git",
-  "author": "[Kuray (FreakyCoder) <kurayogun@gmail.com>, ayooby]",
+  "repository": "git@github.com:bhanukk/react-native-calendar-heatmap.git",
+  "author": "[Kuray (FreakyCoder) <kurayogun@gmail.com>, ayooby, bhanu]",
   "license": "MIT",
   "peerDependencies": {
     "react": ">= 16.x.x",
