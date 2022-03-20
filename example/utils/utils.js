@@ -109,8 +109,12 @@ function findColorLevel(count, rectColor) {
 
 function getFillColor(index, valueCache, rectColor) {
   if (valueCache[index]) {
+    // const fillColor = findColorLevel(
+    //   valueCache[index].countedArray.count,
+    //   rectColor
+    // );
     const fillColor = findColorLevel(
-      valueCache[index].countedArray.count,
+      1,
       rectColor
     );
     return fillColor;
@@ -202,7 +206,7 @@ function getWeekCount(numDays, endDate) {
 
 function getDateCount(startDate, endDate) {
   const rangeInMilliseconds = endDate.getTime() - startDate.getTime();
-  return rangeInMilliseconds / MILLISECONDS_IN_ONE_DAY;
+  return Math.ceil(rangeInMilliseconds / MILLISECONDS_IN_ONE_DAY);
 }
 
 function getLabelDay(startDate, index) {
