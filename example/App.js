@@ -14,7 +14,7 @@ const App = () => {
             <CalendarHeatmap
               startDate={new Date("2019-01-01")}
               endDate={new Date("2019-02-05")}
-              colorArray={["#eee", "#D44B79", "#6B1928", "#9F3251", "#360000"]}
+              colorArray={["#eee", "#008633", "#6B1928", "#9F3251", "#360000"]}
               values={staticData}
             />
           </View>

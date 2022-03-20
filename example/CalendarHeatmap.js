@@ -2,7 +2,7 @@ import _ from "lodash";
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { ScrollView } from "react-native";
-import Svg, { G, Rect, Text } from "react-native-svg";
+import Svg, { G, Line, Rect, Text } from "react-native-svg";
 import {
   SQUARE_SIZE,
   MONTH_LABELS,
@@ -93,7 +93,7 @@ const CalendarHeatmap = props => {
       
       _.range(value['molhamento-foliar']).map(itter => {
         const updatedIndex = index + itter + 1;
-        valuesFormatted[updatedIndex] = { content: true, start: true }
+        valuesFormatted[updatedIndex] = { content: true, start: false }
       });
     });
 
@@ -122,17 +122,28 @@ const CalendarHeatmap = props => {
     const [x, y] = getSquareCoordinates(dayIndex, horizontal, gutterSize);
     const fillColor = getFillColor(index, valueCache, colorArray);
     return (
-      <Rect
-        key={index}
-        width={SQUARE_SIZE}
-        height={SQUARE_SIZE}
-        x={x + 25}
-        y={y + 12}
-        title={getTitleForIndex(index, valueCache, titleForValue)}
-        onPress={() => handleClick(index)}
-        fill={fillColor}
-        {...getTooltipDataAttrsForIndex(index, valueCache, tooltipDataAttrs)}
-      />
+      <React.Fragment key={index}>
+        {valueCache[index] && valueCache[index].start && (
+          <Line 
+            x1={x + 25} 
+            y1={y + 12} 
+            x2={x + 35} 
+            y2 ={y + 12}
+            stroke="#FFEE02" 
+            strokeWidth="3"
+          />
+        )}
+        <Rect
+          width={SQUARE_SIZE}
+          height={SQUARE_SIZE}
+          x={x + 25}
+          y={y + 12}
+          title={getTitleForIndex(index, valueCache, titleForValue)}
+          onPress={() => handleClick(index)}
+          fill={fillColor}
+          {...getTooltipDataAttrsForIndex(index, valueCache, tooltipDataAttrs)}
+        />
+      </React.Fragment>
     );
   };
 
