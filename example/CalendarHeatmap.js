@@ -163,7 +163,7 @@ const CalendarHeatmap = props => {
           stroke="gray" 
           fill="gray"
         >
-          {`${hourIndex}h`}
+          {`${hourIndex < 10 ? `0${hourIndex}` : hourIndex}h`}
         </Text>
       ) : null;
     });
