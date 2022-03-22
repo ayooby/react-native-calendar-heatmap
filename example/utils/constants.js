@@ -1,4 +1,4 @@
-const SQUARE_SIZE = 10;
+const SQUARE_SIZE = 15;
 const MONTH_LABEL_GUTTER_SIZE = 8;
 const MILLISECONDS_IN_ONE_DAY = 24 * 60 * 60 * 1000;
 const DAYS_IN_WEEK = 24;

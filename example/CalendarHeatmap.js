@@ -30,7 +30,8 @@ import {
   getHeight,
   getWidth,
   getDateCount,
-  getLabelDay
+  getLabelDay,
+  getFillStroke
 } from "./utils/utils";
 
 const rectColor = ["#eeeeee", "#d6e685", "#8cc665", "#44a340", "#1e6823"];
@@ -121,26 +122,28 @@ const CalendarHeatmap = props => {
     // }
     const [x, y] = getSquareCoordinates(dayIndex, horizontal, gutterSize);
     const fillColor = getFillColor(index, valueCache, colorArray);
+    const fillColorStroke = getFillStroke(index, valueCache, colorArray);
     return (
       <React.Fragment key={index}>
         {valueCache[index] && valueCache[index].start && (
           <Line 
             x1={x + 25} 
             y1={y + 12} 
-            x2={x + 35} 
+            x2={x + 40} 
             y2 ={y + 12}
             stroke="#FFEE02" 
-            strokeWidth="3"
+            strokeWidth="8"
           />
         )}
         <Rect
           width={SQUARE_SIZE}
           height={SQUARE_SIZE}
           x={x + 25}
-          y={y + 12}
+          y={y + 11}
           title={getTitleForIndex(index, valueCache, titleForValue)}
           onPress={() => handleClick(index)}
           fill={fillColor}
+          stroke={fillColorStroke}
           {...getTooltipDataAttrsForIndex(index, valueCache, tooltipDataAttrs)}
         />
       </React.Fragment>
@@ -215,7 +218,8 @@ const CalendarHeatmap = props => {
           key={weekIndex}
           x={x + 22}
           y={y + 16}
-          stroke={monthLabelsColor}
+          stroke="gray" 
+          fill="gray"
         >
           {/* {monthLabelForIndex
             ? monthLabelForIndex(endOfWeek.getMonth())
@@ -244,7 +248,8 @@ const CalendarHeatmap = props => {
           key={hourIndex}
           x={x}
           y={y + 30}
-          stroke={monthLabelsColor}
+          stroke="gray" 
+          fill="gray"
         >
           {/* {monthLabelForIndex
             ? monthLabelForIndex(endOfWeek.getMonth())

@@ -122,6 +122,18 @@ function getFillColor(index, valueCache, rectColor) {
   return rectColor[0];
 }
 
+function getFillStroke(index, valueCache, rectColor) {
+  if (valueCache[index]) {
+    // const fillColor = findColorLevel(
+    //   valueCache[index].countedArray.count,
+    //   rectColor
+    // );
+    const fillColor = "#008633";
+    return fillColor;
+  }
+  return "#999999";
+}
+
 function getTitleForIndex(index, valueCache, titleForValue) {
   if (valueCache[index]) return valueCache[index].title;
   return titleForValue ? titleForValue(null) : null;
@@ -139,7 +151,7 @@ function getTransformForWeek(weekIndex, horizontal, gutterSize, showMonthLabels)
   if (horizontal && !showMonthLabels) {
     return [weekIndex * getSquareSizeWithGutter(gutterSize), 0];
   }
-  return [10, weekIndex * getSquareSizeWithGutter(gutterSize)];
+  return [0, weekIndex * getSquareSizeWithGutter(gutterSize)];
 }
 
 function getMonthLabelSize(showMonthLabels, horizontal) {
@@ -152,7 +164,7 @@ function getMonthLabelSize(showMonthLabels, horizontal) {
 }
 
 function getSquareSizeWithGutter(gutterSize) {
-  return SQUARE_SIZE + gutterSize;
+  return SQUARE_SIZE;
 }
 
 function getMonthLabelCoordinates(
@@ -234,6 +246,7 @@ export {
   getWidth,
   getDateCount,
   getLabelDay,
+  getFillStroke
 };
 
 export default {
@@ -252,4 +265,5 @@ export default {
   getWidth,
   getDateCount,
   getLabelDay,
+  getFillStroke
 };
