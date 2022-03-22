@@ -5,28 +5,15 @@ import { ScrollView } from "react-native";
 import Svg, { G, Line, Rect, Text } from "react-native-svg";
 import {
   SQUARE_SIZE,
-  MONTH_LABELS,
-  DAYS_IN_WEEK,
-  MONTH_LABEL_GUTTER_SIZE,
-  MILLISECONDS_IN_ONE_DAY
+  HOURS_IN_DAY,
 } from "./utils/constants";
 import {
-  shiftDate,
-  getBeginningTimeForDate,
-  convertToDate
-} from "./utils/helpers";
-import {
-  getWeekCount,
-  getStartDateWithEmptyDays,
   getMonthLabelCoordinates,
-  getTransformForWeek,
-  getNumEmptyDaysAtStart,
+  getTransformForDay,
   getSquareCoordinates,
   getTitleForIndex,
   getFillColor,
-  getCountByDuplicateValues,
   getTooltipDataAttrsForIndex,
-  getTooltipDataAttrsForValue,
   getHeight,
   getWidth,
   getDateCount,
@@ -41,49 +28,18 @@ const CalendarHeatmap = props => {
     values,
     gutterSize,
     horizontal,
-    numDays,
     endDate,
     startDate,
     titleForValue,
     tooltipDataAttrs,
     onPress,
-    showOutOfRangeDays,
-    monthLabelsColor,
     showMonthLabels,
     monthLabelsStyle,
-    monthLabelForIndex,
     colorArray,
   } = props;
 
-  // getValueCache = values => {
-  //   const countedArray = getCountByDuplicateValues(values);
-  //   return _.reduce(
-  //     values,
-  //     (memo, value) => {
-  //       const date = convertToDate(value.date);
-  //       const index = Math.floor(
-  //         (date - getStartDateWithEmptyDays(numDays, endDate)) /
-  //           MILLISECONDS_IN_ONE_DAY
-  //       );
-  //       memo[index] = {
-  //         value: value
-  //       };
-  //       if (memo[index].value.count) {
-  //         memo[index].countedArray = memo[index].value;
-  //       } else {
-  //         const count = _.find(countedArray, { key: memo[index].value.date });
-  //         memo[index].countedArray = count;
-  //       }
-
-  //       return memo;
-  //     },
-  //     {}
-  //   );
-  // };
-
   getValueCache = values => {
     const valuesFormatted = {}
-    // const getRangeDate = getDateCount(startDate, endDate);
     values.map(value => {
       let currentDate = new Date(value.datetime);
       let currentHour = currentDate.getHours();
@@ -114,12 +70,6 @@ const CalendarHeatmap = props => {
   };
 
   renderSquare = (dayIndex, index) => {
-    // const indexOutOfRange =
-    //   index < getNumEmptyDaysAtStart(numDays, endDate) ||
-    //   index >= getNumEmptyDaysAtStart(numDays, endDate) + numDays;
-    // if (indexOutOfRange && !showOutOfRangeDays) {
-    //   return null;
-    // }
     const [x, y] = getSquareCoordinates(dayIndex, horizontal, gutterSize);
     const fillColor = getFillColor(index, valueCache, colorArray);
     const fillColorStroke = getFillStroke(index, valueCache, colorArray);
@@ -151,11 +101,11 @@ const CalendarHeatmap = props => {
   };
 
   renderWeek = weekIndex => {
-    const [x, y] = getTransformForWeek(weekIndex, horizontal, gutterSize, showMonthLabels);
+    const [x, y] = getTransformForDay(weekIndex, horizontal, gutterSize, showMonthLabels);
     return (
       <G key={weekIndex} x={x} y={y}>
-        {_.range(DAYS_IN_WEEK).map(dayIndex =>
-          renderSquare(dayIndex, weekIndex * DAYS_IN_WEEK + dayIndex)
+        {_.range(HOURS_IN_DAY).map(dayIndex =>
+          renderSquare(dayIndex, weekIndex * HOURS_IN_DAY + dayIndex)
         )}
       </G>
     );
@@ -166,39 +116,6 @@ const CalendarHeatmap = props => {
       renderWeek(weekIndex)
     );
   };
-
-  // renderDaysLabels = () => {
-  //   if (!showMonthLabels) {
-  //     return null;
-  //   }
-  //   const weekRange = _.range(getWeekCount(numDays, endDate) - 1); // don't render for last week, because label will be cut off
-  //   return weekRange.map(weekIndex => {
-  //     console.log('week index', weekIndex);
-  //     const endOfWeek = shiftDate(
-  //       getStartDateWithEmptyDays(numDays, endDate),
-  //       (weekIndex + 1) * DAYS_IN_WEEK
-  //     );
-  //     const [x, y] = getMonthLabelCoordinates(
-  //       weekIndex,
-  //       horizontal,
-  //       gutterSize,
-  //     );
-  //     // return endOfWeek.getDate() >= 1 && endOfWeek.getDate() <= DAYS_IN_WEEK ? (
-  //     return weekIndex % 3 === 0 ? (
-  //       <Text
-  //         {...monthLabelsStyle}
-  //         key={weekIndex}
-  //         x={x}
-  //         y={y + 16}
-  //         stroke={monthLabelsColor}
-  //       >
-  //         {monthLabelForIndex
-  //           ? monthLabelForIndex(endOfWeek.getMonth())
-  //           : MONTH_LABELS[endOfWeek.getMonth()]}
-  //       </Text>
-  //     ) : null;
-  //   });
-  // };
 
   renderDaysLabels = () => {
     if (!showMonthLabels) {
@@ -211,7 +128,6 @@ const CalendarHeatmap = props => {
         horizontal,
         gutterSize,
       );
-      // return endOfWeek.getDate() >= 1 && endOfWeek.getDate() <= DAYS_IN_WEEK ? (
       return weekIndex % 5 === 0 ? (
         <Text
           {...monthLabelsStyle}
@@ -221,9 +137,6 @@ const CalendarHeatmap = props => {
           stroke="gray" 
           fill="gray"
         >
-          {/* {monthLabelForIndex
-            ? monthLabelForIndex(endOfWeek.getMonth())
-            : MONTH_LABELS[endOfWeek.getMonth()]} */}
           {getLabelDay(startDate, weekIndex)}
         </Text>
       ) : null;
@@ -234,14 +147,13 @@ const CalendarHeatmap = props => {
     if (!showMonthLabels) {
       return null;
     }
-    const hourRange = _.range(DAYS_IN_WEEK); 
+    const hourRange = _.range(HOURS_IN_DAY); 
     return hourRange.map(hourIndex => {
       const [x, y] = getMonthLabelCoordinates(
         hourIndex,
         false,
         gutterSize,
       );
-      // return endOfWeek.getDate() >= 1 && endOfWeek.getDate() <= DAYS_IN_WEEK ? (
       return hourIndex % 4 === 0 ? (
         <Text
           {...monthLabelsStyle}
@@ -251,9 +163,6 @@ const CalendarHeatmap = props => {
           stroke="gray" 
           fill="gray"
         >
-          {/* {monthLabelForIndex
-            ? monthLabelForIndex(endOfWeek.getMonth())
-            : MONTH_LABELS[endOfWeek.getMonth()]} */}
           {`${hourIndex}h`}
         </Text>
       ) : null;
@@ -263,7 +172,7 @@ const CalendarHeatmap = props => {
   return (
     <ScrollView horizontal={true}>
       <Svg
-        height={getHeight(gutterSize + 2, showMonthLabels, horizontal)}
+        height={getHeight(gutterSize + 2, showMonthLabels, horizontal) + 20}
         width={getWidth(startDate, endDate, gutterSize)}
         style={{overflow:"scroll"}}
       >
@@ -277,7 +186,6 @@ const CalendarHeatmap = props => {
 
 CalendarHeatmap.propTypes = {
   values: PropTypes.arrayOf(
-    // array of objects with date and arbitrary metadata
     PropTypes.shape({
       datetime: PropTypes.oneOfType([
         PropTypes.string,

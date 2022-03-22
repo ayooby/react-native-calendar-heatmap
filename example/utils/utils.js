@@ -1,9 +1,8 @@
 import { shiftDate, getBeginningTimeForDate, convertToDate } from "./helpers";
 import {
   SQUARE_SIZE,
-  MONTH_LABELS,
-  DAYS_IN_WEEK,
-  MONTH_LABEL_GUTTER_SIZE,
+  HOURS_IN_DAY,
+  DAY_LABEL_GUTTER_SIZE,
   MILLISECONDS_IN_ONE_DAY
 } from "./constants";
 
@@ -11,17 +10,17 @@ function getTransformForMonthLabels(horizontal, gutterSize) {
   if (horizontal) {
     return null;
   }
-  return `${getWeekWidth(gutterSize) + MONTH_LABEL_GUTTER_SIZE}, 0`;
+  return `${getHourWidth(gutterSize) + DAY_LABEL_GUTTER_SIZE}, 0`;
 }
 
-function getTransformForAllWeeks(showMonthLabels, horizontal) {
+function getTransformForAllHours(showDaysLabels, horizontal) {
   if (horizontal)
-    return `0, ${getMonthLabelSize(showMonthLabels, horizontal) - 100}`;
+    return `0, ${getMonthLabelSize(showDaysLabels, horizontal) - 100}`;
   return null;
 }
 
-function getWeekWidth(gutterSize) {
-  return DAYS_IN_WEEK * getSquareSizeWithGutter(gutterSize);
+function getHourWidth(gutterSize) {
+  return HOURS_IN_DAY * getSquareSizeWithGutter(gutterSize);
 }
 
 function getWidth(startDate, endDate, gutterSize) {
@@ -31,23 +30,23 @@ function getWidth(startDate, endDate, gutterSize) {
   );
 }
 
-function getHeight(gutterSize, showMonthLabels, horizontal) {
+function getHeight(gutterSize, showDaysLabels, horizontal) {
   return (
-    getWeekWidth(gutterSize) +
-    (getMonthLabelSize(showMonthLabels, horizontal) - gutterSize)
+    getHourWidth(gutterSize) +
+    (getMonthLabelSize(showDaysLabels, horizontal) - gutterSize)
   );
 }
 
-function getViewBox(numDays, endDate, gutterSize, showMonthLabels, horizontal) {
+function getViewBox(numHours, endDate, gutterSize, showDaysLabels, horizontal) {
   if (horizontal) {
-    return `${getWidth(numDays, endDate, gutterSize)} ${getHeight(
+    return `${getWidth(numHours, endDate, gutterSize)} ${getHeight(
       gutterSize,
-      showMonthLabels,
+      showDaysLabels,
       horizontal
     )}`;
   }
-  return `${getHeight(gutterSize, showMonthLabels, horizontal)} ${getWidth(
-    numDays,
+  return `${getHeight(gutterSize, showDaysLabels, horizontal)} ${getWidth(
+    numHours,
     endDate,
     gutterSize
   )}`;
@@ -109,10 +108,6 @@ function findColorLevel(count, rectColor) {
 
 function getFillColor(index, valueCache, rectColor) {
   if (valueCache[index]) {
-    // const fillColor = findColorLevel(
-    //   valueCache[index].countedArray.count,
-    //   rectColor
-    // );
     const fillColor = findColorLevel(
       1,
       rectColor
@@ -124,10 +119,6 @@ function getFillColor(index, valueCache, rectColor) {
 
 function getFillStroke(index, valueCache, rectColor) {
   if (valueCache[index]) {
-    // const fillColor = findColorLevel(
-    //   valueCache[index].countedArray.count,
-    //   rectColor
-    // );
     const fillColor = "#008633";
     return fillColor;
   }
@@ -144,23 +135,23 @@ function getSquareCoordinates(dayIndex, horizontal, gutterSize) {
   return [dayIndex * getSquareSizeWithGutter(gutterSize), 0];
 }
 
-function getTransformForWeek(weekIndex, horizontal, gutterSize, showMonthLabels) {
+function getTransformForDay(dayIndex, horizontal, gutterSize, showDaysLabels) {
   if (horizontal) {
-    return [weekIndex * getSquareSizeWithGutter(gutterSize), getMonthLabelSize(showMonthLabels, horizontal)];
+    return [dayIndex * getSquareSizeWithGutter(gutterSize), getMonthLabelSize(showDaysLabels, horizontal)];
   }
-  if (horizontal && !showMonthLabels) {
-    return [weekIndex * getSquareSizeWithGutter(gutterSize), 0];
+  if (horizontal && !showDaysLabels) {
+    return [dayIndex * getSquareSizeWithGutter(gutterSize), 0];
   }
-  return [0, weekIndex * getSquareSizeWithGutter(gutterSize)];
+  return [0, dayIndex * getSquareSizeWithGutter(gutterSize)];
 }
 
-function getMonthLabelSize(showMonthLabels, horizontal) {
-  if (!showMonthLabels) {
+function getMonthLabelSize(showDaysLabels, horizontal) {
+  if (!showDaysLabels) {
     return 0;
   } else if (horizontal) {
-    return SQUARE_SIZE + MONTH_LABEL_GUTTER_SIZE;
+    return SQUARE_SIZE + DAY_LABEL_GUTTER_SIZE;
   }
-  return 2 * (SQUARE_SIZE + MONTH_LABEL_GUTTER_SIZE);
+  return 2 * (SQUARE_SIZE + DAY_LABEL_GUTTER_SIZE);
 }
 
 function getSquareSizeWithGutter(gutterSize) {
@@ -168,27 +159,27 @@ function getSquareSizeWithGutter(gutterSize) {
 }
 
 function getMonthLabelCoordinates(
-  weekIndex,
+  dayIndex,
   horizontal,
   gutterSize,
 ) {
   if (horizontal) {
     return [
-      weekIndex * getSquareSizeWithGutter(gutterSize),
+      dayIndex * getSquareSizeWithGutter(gutterSize),
       0
     ];
   }
   const verticalOffset = -2;
   return [
     0,
-    (weekIndex + 1) * getSquareSizeWithGutter(gutterSize) + verticalOffset
+    (dayIndex + 1) * getSquareSizeWithGutter(gutterSize) + verticalOffset
   ];
 }
 
-function getStartDateWithEmptyDays(numDays, endDate) {
+function getStartDateWithEmptyHours(numHours, endDate) {
   return shiftDate(
-    getStartDate(numDays, endDate),
-    -getNumEmptyDaysAtStart(numDays, endDate)
+    getStartDate(numHours, endDate),
+    -getNumEmptyHoursAtStart(numHours, endDate)
   );
 }
 
@@ -196,24 +187,24 @@ function getEndDate(endDate) {
   return getBeginningTimeForDate(convertToDate(endDate));
 }
 
-function getStartDate(numDays, endDate) {
-  return shiftDate(getEndDate(endDate), -numDays + 1); // +1 because endDate is inclusive
+function getStartDate(numHours, endDate) {
+  return shiftDate(getEndDate(endDate), -numHours + 1); // +1 because endDate is inclusive
 }
 
-function getNumEmptyDaysAtEnd(endDate) {
-  return DAYS_IN_WEEK - 1 - getEndDate(endDate).getDay();
+function getNumEmptyHoursAtEnd(endDate) {
+  return HOURS_IN_DAY - 1 - getEndDate(endDate).getHour();
 }
 
-function getNumEmptyDaysAtStart(numDays, endDate) {
-  return getStartDate(numDays, endDate).getDay();
+function getNumEmptyHoursAtStart(numHours, endDate) {
+  return getStartDate(numHours, endDate).getHour();
 }
 
-function getWeekCount(numDays, endDate) {
-  const numDaysRoundedToWeek =
-    numDays +
-    getNumEmptyDaysAtStart(numDays, endDate) +
-    getNumEmptyDaysAtEnd(endDate);
-  return Math.ceil(numDaysRoundedToWeek / DAYS_IN_WEEK);
+function getHourCount(numHours, endDate) {
+  const numHoursRoundedToHour =
+    numHours +
+    getNumEmptyHoursAtStart(numHours, endDate) +
+    getNumEmptyHoursAtEnd(endDate);
+  return Math.ceil(numHoursRoundedToHour / HOURS_IN_DAY);
 }
 
 function getDateCount(startDate, endDate) {
@@ -231,11 +222,11 @@ function getLabelDay(startDate, index) {
 }
 
 export {
-  getWeekCount,
-  getStartDateWithEmptyDays,
+  getHourCount,
+  getStartDateWithEmptyHours,
   getMonthLabelCoordinates,
-  getTransformForWeek,
-  getNumEmptyDaysAtStart,
+  getTransformForDay,
+  getNumEmptyHoursAtStart,
   getSquareCoordinates,
   getTitleForIndex,
   getFillColor,
@@ -250,11 +241,11 @@ export {
 };
 
 export default {
-  getWeekCount,
-  getStartDateWithEmptyDays,
+  getHourCount,
+  getStartDateWithEmptyHours,
   getMonthLabelCoordinates,
-  getTransformForWeek,
-  getNumEmptyDaysAtStart,
+  getTransformForDay,
+  getNumEmptyHoursAtStart,
   getSquareCoordinates,
   getTitleForIndex,
   getFillColor,
