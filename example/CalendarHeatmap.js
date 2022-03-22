@@ -43,9 +43,7 @@ const CalendarHeatmap = props => {
     values.map(value => {
       let currentDate = new Date(value.datetime);
       let currentHour = currentDate.getHours();
-      console.log('current', currentHour);
-      let index = (getDateCount(startDate, currentDate) + 1) * 24 + currentHour;
-      console.log(index);
+      let index = (getDateCount(startDate, currentDate) - 1) * HOURS_IN_DAY + currentHour;
       valuesFormatted[index] = { content: true, start: true }
       
       _.range(value['molhamento-foliar']).map(itter => {
@@ -77,7 +75,7 @@ const CalendarHeatmap = props => {
       <React.Fragment key={index}>
         {valueCache[index] && valueCache[index].start && (
           <Line 
-            x1={x + 25} 
+            x1={x + 30} 
             y1={y + 12} 
             x2={x + 40} 
             y2 ={y + 12}
@@ -88,7 +86,7 @@ const CalendarHeatmap = props => {
         <Rect
           width={SQUARE_SIZE}
           height={SQUARE_SIZE}
-          x={x + 25}
+          x={x + 30}
           y={y + 11}
           title={getTitleForIndex(index, valueCache, titleForValue)}
           onPress={() => handleClick(index)}
@@ -132,7 +130,7 @@ const CalendarHeatmap = props => {
         <Text
           {...monthLabelsStyle}
           key={weekIndex}
-          x={x + 22}
+          x={x + 21}
           y={y + 16}
           stroke="gray" 
           fill="gray"
@@ -173,7 +171,7 @@ const CalendarHeatmap = props => {
     <ScrollView horizontal={true}>
       <Svg
         height={getHeight(gutterSize + 2, showMonthLabels, horizontal) + 20}
-        width={getWidth(startDate, endDate, gutterSize)}
+        width={getWidth(startDate, endDate, gutterSize) + 5}
         style={{overflow:"scroll"}}
       >
         <G>{renderDaysLabels()}</G>

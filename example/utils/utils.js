@@ -1,23 +1,10 @@
-import { shiftDate, getBeginningTimeForDate, convertToDate } from "./helpers";
+import { shiftDate, getBeginningTimeForDate, convertToDate } from './helpers';
 import {
   SQUARE_SIZE,
   HOURS_IN_DAY,
   DAY_LABEL_GUTTER_SIZE,
   MILLISECONDS_IN_ONE_DAY
-} from "./constants";
-
-function getTransformForMonthLabels(horizontal, gutterSize) {
-  if (horizontal) {
-    return null;
-  }
-  return `${getHourWidth(gutterSize) + DAY_LABEL_GUTTER_SIZE}, 0`;
-}
-
-function getTransformForAllHours(showDaysLabels, horizontal) {
-  if (horizontal)
-    return `0, ${getMonthLabelSize(showDaysLabels, horizontal) - 100}`;
-  return null;
-}
+} from './constants';
 
 function getHourWidth(gutterSize) {
   return HOURS_IN_DAY * getSquareSizeWithGutter(gutterSize);
@@ -37,28 +24,8 @@ function getHeight(gutterSize, showDaysLabels, horizontal) {
   );
 }
 
-function getViewBox(numHours, endDate, gutterSize, showDaysLabels, horizontal) {
-  if (horizontal) {
-    return `${getWidth(numHours, endDate, gutterSize)} ${getHeight(
-      gutterSize,
-      showDaysLabels,
-      horizontal
-    )}`;
-  }
-  return `${getHeight(gutterSize, showDaysLabels, horizontal)} ${getWidth(
-    numHours,
-    endDate,
-    gutterSize
-  )}`;
-}
-
-function getValueForIndex(index, valueCache) {
-  if (valueCache[index]) return valueCache[index].value;
-  return null;
-}
-
 function getTooltipDataAttrsForValue(value, tooltipDataAttrs) {
-  if (typeof tooltipDataAttrs === "function") return tooltipDataAttrs(value);
+  if (typeof tooltipDataAttrs === 'function') return tooltipDataAttrs(value);
   return tooltipDataAttrs;
 }
 
@@ -100,14 +67,14 @@ function getFillColor(index, valueCache, fillColor) {
   if (valueCache[index]) {
     return fillColor;
   }
-  return "#FFFFFF";
+  return '#FFFFFF';
 }
 
 function getFillStroke(index, valueCache, fillColor) {
   if (valueCache[index]) {
     return fillColor;
   }
-  return "#999999";
+  return '#999999';
 }
 
 function getTitleForIndex(index, valueCache, titleForValue) {
