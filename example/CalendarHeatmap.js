@@ -21,8 +21,6 @@ import {
   getFillStroke
 } from "./utils/utils";
 
-const rectColor = ["#eeeeee", "#d6e685", "#8cc665", "#44a340", "#1e6823"];
-
 const CalendarHeatmap = props => {
   const {
     values,
@@ -35,7 +33,9 @@ const CalendarHeatmap = props => {
     onPress,
     showMonthLabels,
     monthLabelsStyle,
-    colorArray,
+    startLeafWetness,
+    squareColor,
+    squareColorStroke
   } = props;
 
   getValueCache = values => {
@@ -71,8 +71,8 @@ const CalendarHeatmap = props => {
 
   renderSquare = (dayIndex, index) => {
     const [x, y] = getSquareCoordinates(dayIndex, horizontal, gutterSize);
-    const fillColor = getFillColor(index, valueCache, colorArray);
-    const fillColorStroke = getFillStroke(index, valueCache, colorArray);
+    const fillColor = getFillColor(index, valueCache, squareColor);
+    const fillColorStroke = getFillStroke(index, valueCache, squareColorStroke);
     return (
       <React.Fragment key={index}>
         {valueCache[index] && valueCache[index].start && (
@@ -81,7 +81,7 @@ const CalendarHeatmap = props => {
             y1={y + 12} 
             x2={x + 40} 
             y2 ={y + 12}
-            stroke="#FFEE02" 
+            stroke={startLeafWetness}
             strokeWidth="8"
           />
         )}
@@ -209,7 +209,9 @@ CalendarHeatmap.propTypes = {
   titleForValue: PropTypes.func, // function which returns title text for value
   classForValue: PropTypes.func, // function which returns html class for value
   onPress: PropTypes.func, // callback function when a square is clicked
-  colorArray: PropTypes.array
+  startLeafWetness: PropTypes.string,
+  fillColor: PropTypes.string,
+  fillColorStroke: PropTypes.string
 };
 
 CalendarHeatmap.defaultProps = {
@@ -220,7 +222,9 @@ CalendarHeatmap.defaultProps = {
   showMonthLabels: true,
   monthLabelsColor: 'black',
   showOutOfRangeDays: false,
-  colorArray: rectColor,
+  startLeafWetness: '#FFEE02',
+  squareColor: '#16C559',
+  squareColorStroke: '#008633',
   classForValue: value => (value ? "black" : "#8cc665"),
   onPress: () => console.log("change onPress prop")
 };

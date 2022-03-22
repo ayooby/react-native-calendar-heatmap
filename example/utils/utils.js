@@ -96,30 +96,15 @@ function getCountByDuplicateValues(array) {
   return outputArray;
 }
 
-function findColorLevel(count, rectColor) {
-  if (count === 0) return rectColor[0];
-  else if (count >= 1 && count <= 3) return rectColor[1];
-  else if (count >= 4 && count <= 9) return rectColor[2];
-  else if (count >= 10 && count <= 17) return rectColor[3];
-  else if (count >= 18 && count <= 25) return rectColor[4];
-  else if (count >= 26) return rectColor[5];
-  else return rectColor[5];
-}
-
-function getFillColor(index, valueCache, rectColor) {
+function getFillColor(index, valueCache, fillColor) {
   if (valueCache[index]) {
-    const fillColor = findColorLevel(
-      1,
-      rectColor
-    );
     return fillColor;
   }
-  return rectColor[0];
+  return "#FFFFFF";
 }
 
-function getFillStroke(index, valueCache, rectColor) {
+function getFillStroke(index, valueCache, fillColor) {
   if (valueCache[index]) {
-    const fillColor = "#008633";
     return fillColor;
   }
   return "#999999";
