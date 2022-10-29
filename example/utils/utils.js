@@ -1,10 +1,10 @@
-import { shiftDate, getBeginningTimeForDate, convertToDate } from './helpers';
+import { shiftDate, getBeginningTimeForDate, convertToDate } from "./helpers";
 import {
   SQUARE_SIZE,
   HOURS_IN_DAY,
   DAY_LABEL_GUTTER_SIZE,
-  MILLISECONDS_IN_ONE_DAY
-} from './constants';
+  MILLISECONDS_IN_ONE_DAY,
+} from "./constants";
 
 function getHourWidth(gutterSize) {
   return HOURS_IN_DAY * getSquareSizeWithGutter(gutterSize);
@@ -13,7 +13,8 @@ function getHourWidth(gutterSize) {
 function getWidth(startDate, endDate, gutterSize) {
   return (
     getDateCount(startDate, endDate) * getSquareSizeWithGutter(gutterSize) -
-    gutterSize + 30
+    gutterSize +
+    30
   );
 }
 
@@ -25,7 +26,7 @@ function getHeight(gutterSize, showDaysLabels, horizontal) {
 }
 
 function getTooltipDataAttrsForValue(value, tooltipDataAttrs) {
-  if (typeof tooltipDataAttrs === 'function') return tooltipDataAttrs(value);
+  if (typeof tooltipDataAttrs === "function") return tooltipDataAttrs(value);
   return tooltipDataAttrs;
 }
 
@@ -54,10 +55,10 @@ function getCountByDuplicateValues(array) {
 
   //now we will iterate through those keys of the Map and format it for Array 2
   let outputArray = [];
-  Object.keys(hashMap).forEach(key => {
+  Object.keys(hashMap).forEach((key) => {
     outputArray.push({
       key,
-      count: hashMap[key]
+      count: hashMap[key],
     });
   });
   return outputArray;
@@ -67,14 +68,14 @@ function getFillColor(index, valueCache, fillColor) {
   if (valueCache[index]) {
     return fillColor;
   }
-  return '#FFFFFF';
+  return "#FFFFFF";
 }
 
 function getFillStroke(index, valueCache, fillColor) {
   if (valueCache[index]) {
     return fillColor;
   }
-  return '#999999';
+  return "#999999";
 }
 
 function getTitleForIndex(index, valueCache, titleForValue) {
@@ -89,7 +90,10 @@ function getSquareCoordinates(dayIndex, horizontal, gutterSize) {
 
 function getTransformForDay(dayIndex, horizontal, gutterSize, showDaysLabels) {
   if (horizontal) {
-    return [dayIndex * getSquareSizeWithGutter(gutterSize), getMonthLabelSize(showDaysLabels, horizontal)];
+    return [
+      dayIndex * getSquareSizeWithGutter(gutterSize),
+      getMonthLabelSize(showDaysLabels, horizontal),
+    ];
   }
   if (horizontal && !showDaysLabels) {
     return [dayIndex * getSquareSizeWithGutter(gutterSize), 0];
@@ -110,21 +114,14 @@ function getSquareSizeWithGutter(gutterSize) {
   return SQUARE_SIZE;
 }
 
-function getMonthLabelCoordinates(
-  dayIndex,
-  horizontal,
-  gutterSize,
-) {
+function getMonthLabelCoordinates(dayIndex, horizontal, gutterSize) {
   if (horizontal) {
-    return [
-      dayIndex * getSquareSizeWithGutter(gutterSize),
-      0
-    ];
+    return [dayIndex * getSquareSizeWithGutter(gutterSize), 0];
   }
   const verticalOffset = -2;
   return [
     0,
-    (dayIndex + 1) * getSquareSizeWithGutter(gutterSize) + verticalOffset
+    (dayIndex + 1) * getSquareSizeWithGutter(gutterSize) + verticalOffset,
   ];
 }
 
@@ -160,8 +157,16 @@ function getHourCount(numHours, endDate) {
 }
 
 function getDateCount(startDate, endDate) {
-  const rangeInMilliseconds = endDate.getTime() - startDate.getTime();
-  return Math.ceil(rangeInMilliseconds / MILLISECONDS_IN_ONE_DAY);
+  const startDateFormatted = new Date(
+    `${startDate.getFullYear()}-${startDate.getMonth()}-${startDate.getDate()}`
+  );
+  const endDateFormatted = new Date(
+    `${endDate.getFullYear()}-${endDate.getMonth()}-${endDate.getDate()}`
+  );
+  return Math.round(
+    Math.abs(endDateFormatted.getTime() - startDateFormatted.getTime()) /
+      MILLISECONDS_IN_ONE_DAY
+  );
 }
 
 function getLabelDay(startDate, index) {
@@ -189,7 +194,7 @@ export {
   getWidth,
   getDateCount,
   getLabelDay,
-  getFillStroke
+  getFillStroke,
 };
 
 export default {
@@ -208,5 +213,5 @@ export default {
   getWidth,
   getDateCount,
   getLabelDay,
-  getFillStroke
+  getFillStroke,
 };
