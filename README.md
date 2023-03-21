@@ -1,5 +1,7 @@
 ## React-native Calendar Heatmap
 
+Note: This a fork of [another component](https://github.com/ayooby/react-native-calendar-heatmap) with support for count attribute in the data object.
+
 <img alt="React Native Calendar Heatmap" src="assets/logo.png" width="1050"/>
 
 [![A calendar heatmap component built on SVG. The component expands to size of container and is super configurable.](https://img.shields.io/badge/-A%20calendar%20heatmap%20component%20built%20on%20SVG.%20The%20component%20expands%20to%20size%20of%20container%20and%20is%20super%20configurable.-lightgrey?style=for-the-badge)](https://github.com/ayooby/react-native-calendar-heatmap)
